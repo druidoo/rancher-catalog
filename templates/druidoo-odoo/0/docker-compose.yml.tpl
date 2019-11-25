@@ -3,7 +3,7 @@ services:
     odoo:
         tty: true
         stdin_open: true
-        image: ivantodorovich/odoo-druidoo:$strImageTag
+        image: $strImageName:$strImageTag
         labels:
             io.rancher.container.pull_image: always
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
@@ -54,6 +54,7 @@ services:
             - SMTP_SSL=$boolSmtpSsl
             - SMTP_USER=$strSmtpUser
             - SMTP_PASSWORD=$strSmtPassword
+            - AEROO_DOCS_HOST= aeroo-docs.adhoc-aeroo-docs
             - DATABASE=$strDatabase
             - DBFILTER=$strDbFilter
             - SERVER_MODE=$strServerMode
@@ -71,6 +72,7 @@ services:
             - LIMIT_TIME_REAL=$intLimiteTimeReal
             - LIMIT_TIME_REAL_CRON=$intLimiteTimeRealCron
             - ODOO_VERSION=$strImageTag
+            - SERVER_WIDE_MODULES=$strServerWideModules
             {{- if eq .Values.enumSessionsStore "redis" }}
             - ENABLE_REDIS=True
             - REDIS_HOST=$strRedisHost

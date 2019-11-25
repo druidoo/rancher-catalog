@@ -1,7 +1,7 @@
 .catalog:
-  name: "Druidoo Odoo 12.0 with REPOSYML"
-  version: "12.0"
-  description: "Druidoo Odoo w/OCA modules"
+  name: "Druidoo Odoo"
+  version: "1.0"
+  description: "All-in-one management software"
   minimum_rancher_version: v1.3.2
   questions:
 
@@ -9,7 +9,13 @@
       label: "Odoo Image Tag"
       type: "string"
       required: true
-      default: "12.0"
+      default: "12.0.druidoo"
+
+    - variable: strImageName
+      label: "Odoo Image Name"
+      description: "For eg. druidoo/odoo-druidoo"
+      type: "string"
+      required: true
 
 # domains configuration
 
@@ -43,6 +49,12 @@
       default: ""
 
 # odoo configuration parameters
+    - variable: strServerWideModules
+      label: "Server-wide modules."
+      type: "string"
+      required: true
+      default: "base,web,server_mode,saas_client"
+
     - variable: strAdminPassword
       label: "Odoo ADMIN_PASSWORD"
       description: "Odoo ADMIN_PASSWORD environment var"
@@ -83,13 +95,25 @@
       description: "Maximum allowed virtual memory per worker, when reached the worker be reset after the current request"
       type: "int"
       required: true
+      # Este valor es el que usa odoo por defecto (odoo.py) y parecido al que
+      # sugiere la conf 629145600, usamos el por defecto
       default: "671088640"
+      # este es el que veníamos usando
+      # default: "2147483648"
 
     - variable: intLimitMemoryHard
       label: "Limit Memory Hard"
       description: "Maximum allowed virtual memory per worker, when reached, any memory allocation will fail"
       type: "int"
       required: true
+      # Este valor es el que usa odoo por defecto (odoo.py) pero parece
+      # que quedó viejo respecto a sugerencias más nuevas de usar algo más alto
+      # de 1 gb o más para que el proceso siga
+      # default: "805306368"
+      # sugerencias nuevas en deplo v11
+      # default: "1677721600"
+      # número que usabamos antes, lo dejamos para no limitar por ahora si hay
+      # alguna operación que use demasiada ram (ej. boggio)
       default: "2147483648"
 
     - variable: intLimiteTimeCpu
@@ -257,8 +281,6 @@
       required: true
       default: "odoo=true"
       type: "string"
-
-# Repositories
 
     - variable: "strReposYml"
       label: "Git Aggregator repos.yml "
