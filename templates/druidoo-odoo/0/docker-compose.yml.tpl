@@ -43,29 +43,33 @@ services:
             - PGPASSWORD=$strPgPassword
             - PGHOST=$strPgHost
             - PGPORT=$strPgPort
+            - PGDATABASE=$strDatabase
+            - DATABASE=$strDatabase
+            - DBFILTER=$strDbFilter
+            - LIST_DB=$boolListDb
+            - DB_MAXCONN=$intDbMaxconn
             # TODO, este podria volver a ser un booleano y tmb podriamos
             # re simplificar el entry point, ahora modificamos a odoo para que
             # no cree bd si se manda el db_name, y estamos haciendo eso, mandar
             # db_name
-            - REPOS_YML=$strReposYml
             - FIXDBS=$strFixDbs
+            - FIX_DB_WEB_DISABLED=True
             - SMTP_SERVER=$strSmtpServer
             - SMTP_PORT=$intSmtPort
             - SMTP_SSL=$boolSmtpSsl
             - SMTP_USER=$strSmtpUser
             - SMTP_PASSWORD=$strSmtPassword
-            - AEROO_DOCS_HOST= aeroo-docs.adhoc-aeroo-docs
-            - DATABASE=$strDatabase
-            - DBFILTER=$strDbFilter
+            - ADMIN_PASSWORD=$strAdminPassword
+            - WORKERS=$intWorkers
+            - UNACCENT=True
+            - PROXY_MODE=True
+            - WITHOUT_DEMO=True
+            - WAIT_PG=True
+            - MAX_CRON_THREADS=$intMaxCronThreads
             - SERVER_MODE=$strServerMode
             - DISABLE_SESSION_GC=$strDisableSessionGC
-            - WORKERS=$intWorkers
-            - MAX_CRON_THREADS=$intMaxCronThreads
-            - ADMIN_PASSWORD=$strAdminPassword
             - MAIL_CATCHALL_DOMAIN=$strMailCatchallDomain
-            - FIX_DB_WEB_DISABLED=True
-            - LIST_DB=$boolListDb
-            - DB_MAXCONN=$intDbMaxconn
+            - REPOS_YML=$strReposYml
             - LIMIT_MEMORY_HARD=$intLimitMemoryHard
             - LIMIT_MEMORY_SOFT=$intLimitMemorySoft
             - LIMIT_TIME_CPU=$intLimiteTimeCpu
@@ -73,10 +77,14 @@ services:
             - LIMIT_TIME_REAL_CRON=$intLimiteTimeRealCron
             - ODOO_VERSION=$strImageTag
             - SERVER_WIDE_MODULES=$strServerWideModules
+            - FILESTORE_COPY_HARD_LINK=True
+            - FILESTORE_OPERATIONS_THREADS=3
             {{- if eq .Values.enumSessionsStore "redis" }}
             - ENABLE_REDIS=True
             - REDIS_HOST=$strRedisHost
+            - REDIS_PORT=6379
             - REDIS_PASS=$strRedisPass
+            - REDIS_DBINDEX=1
             {{- end}}
     {{- if ne .Values.strGCECloudsqlConnectionName "" }}
     gce-psql-proxy:
