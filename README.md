@@ -1,2 +1,3 @@
-# rancher-catalog
+# Rancher Catalogs
+
 Druidoo Rancher Catalogs
